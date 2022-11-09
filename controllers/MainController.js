@@ -7,20 +7,18 @@ const cheerio = require('cheerio');
 
 exports.getIndex = (req, res) => {
 
-    res.render('index.ejs',{value: 31});
+    res.render('index.ejs', { value: 31 });
 };
 
 
-exports.getCity = async (req, res) => {
-    const control = await controlCity(req.params.city);
-    console.log(control);
-
-    res.render('index.ejs', {value: 31});
+exports.getCity = (req, res) => {
+    const control = controlCity(req.params.city);
+    res.render('index.ejs', { value: "9 Derece" });
 }
 
 
 
-const controlCity =  (cityStub) => {
+const controlCity = cityStub => {
     City.findAll({ where: { SEHIRSTUB: cityStub } })
         .then(
             city => {
@@ -29,39 +27,40 @@ const controlCity =  (cityStub) => {
                     return "Bu şehir veritabanımızda bulunumuyor...";
                 }
                 else {
-                    return {value:31};
-                    // return controlPredictedWeather(city[0]);
+
+                    return controlPredictedWeather(city[0]);
                 }
 
             }).catch(err => console.log(err));
 
 }
-const controlPredictedWeather = (city) => {
-    Predicted_Weather.findAll({ where: { CITYID: city.ID } }).then(
+const controlPredictedWeather = async (city) => {
+    await Predicted_Weather.findAll({ where: { CITYID: city.ID } }).then(
         degree => {
             if (degree.length === 0) {
                 return getPredictedWeather(city);
             }
             else {
-                return {value: degree[0].degree, city: city};
+                console.log({ value: degree[0], city: city });
+                return { value: degree[0].degree, city: city };
             }
         }
     ).catch(err => console.log(err))
 
 }
 
-const getPredictedWeather = (city) =>{
+const getPredictedWeather = async (city) => {
 
-    axios.get(`https://www.wunderground.com/history/daily/${city.WUCODE}/date/2020-1-1`)
+    await axios.get(`https://www.wunderground.com/history/daily/${city.WUCODE}/date/2020-1-1`)
         .then(res => {
             const htmlData = res.data;
             const $ = cheerio.load(htmlData);
             const elementSelector = "#inner-content > div.region-content-top > lib-city-header > div:nth-child(1) > div > div > a.station-name > lib-display-unit > span > span.wu-value.wu-value-to";
-            $(elementSelector).each((parentIdx, parentElm) =>{
+            $(elementSelector).each((parentIdx, parentElm) => {
                 var tdValue = $(parentElm).text()
-                tdValue = Math.ceil((Number(tdValue)-32)*(5/9));
+                tdValue = Math.ceil((Number(tdValue) - 32) * (5 / 9));
                 console.log(tdValue);
-                return insertDataToDB(tdValue,city);
+                return insertDataToDB(tdValue, city);
             });
 
         }).catch(err => console.log(err));
@@ -69,13 +68,13 @@ const getPredictedWeather = (city) =>{
 }
 
 
-const insertDataToDB = (value,city) =>{
+const insertDataToDB = async (value, city) => {
 
-    Predicted_Weather.create({
+    await Predicted_Weather.create({
         CITYID: city.ID,
         DEGREE: value
     })
-
-    return {value: value, city: city};
+    console.log({ value: value, city: city });
+    return { value: value, city: city };
 
 }
