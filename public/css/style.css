@@ -25,21 +25,18 @@ header {
     color: #153450;
     font-size: 25px;
     display: flex;
-    transition: color 0.4s linear;
+    transition: color 0.1s linear;
     align-items: center;
 
 }
 
-title a img {
-    transition: all 0.4 ease;
-}
 
 .title a:hover {
     color: #F5BF21;
 
 }
 .title a span{
-    transition: color 0.2s linear;
+    transition: color 0.35s linear;
 }
 .title a span:hover{
     color:white;
@@ -67,7 +64,7 @@ title a img {
     -webkit-transition: opacity 0.4s ease-in-out;
     -moz-transition: opacity 0.4s ease-in-out;
     -o-transition: opacity 0.4s ease-in-out;
-    transition: opacity 0.4 ease-in-out;
+    transition: opacity 0.4s ease-in-out;
     z-index: 1;
 }
 

@@ -15,13 +15,17 @@ const City = sequelize.define("CITY", {
     type: DataTypes.CHAR,
     allowNull: false,
   },
-  DERECE: {
-    type: DataTypes.SMALLINT,
+  SEHIRSTUB: {
+    type: DataTypes.CHAR,
+    allowNull: false,
+  },
+  WUCODE: {
+    type: DataTypes.CHAR,
     allowNull: false,
   }
   
 },{
-  tableName: 'CITY'
+  tableName: 'CITIES'
 });
 
 module.exports = City;

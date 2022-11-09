@@ -7,7 +7,7 @@ const sequelize = new Sequelize('havadurumudb', 'postgres', 'admin123', {
   });
 
 sequelize.authenticate()  // DB CONNECTION TEST
-.then(()=>console.log("DB connected.")).catch(err => console.log(err));
+.then(()=>console.log("DB Connected Succesfully.")).catch(err => console.log("DB Connection Error: " + err));
 
-  module.exports = sequelize;
+module.exports = sequelize;
 

@@ -27,6 +27,7 @@
   #svg-turkiye-haritasi path {
     cursor: pointer;
     fill: #00B4DB;
+    transition: fill 0.3s linear;
   }
   #svg-turkiye-haritasi path:hover {
     fill: #153652;
