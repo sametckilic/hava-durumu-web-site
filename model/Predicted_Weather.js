@@ -16,6 +16,14 @@ const Predicted_Weather = sequelize.define("PREDICTED_WEATHER", {
     type: DataTypes.REAL,
     allowNull: false,
   },
+  CONDITION:{
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  DATE: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  }
   
 },{
   tableName: 'PREDICTED_WEATHER'

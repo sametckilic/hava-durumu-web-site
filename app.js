@@ -11,13 +11,10 @@ app.set('views','views');
 
 
 // routes
-const cities = require('./routes/cities.js');
 const index = require('./routes/index.js');
 const error = require('./routes/error.js');
 
 app.use('/', index);
-
-app.use('/cities', cities);
 
 app.use(error);
 

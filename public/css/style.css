@@ -111,3 +111,24 @@ header {
 .search #city-search:hover{
     opacity: 0.8;
 }
+
+.degreeSite{
+    margin-top : 40px;
+    text-align: center;
+}
+
+.degree-image img{
+    width: 200px;
+}
+
+.city-name{
+    color: white;
+    font-size: 75px;
+    font-weight: bold;
+}
+
+.city-degree{
+    color: white;
+    font-size: 65px;
+    font-weight: bold;
+}

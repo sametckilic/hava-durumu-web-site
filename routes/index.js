@@ -9,7 +9,7 @@ index.use(express.static(path.join(__dirname, '../', 'public')));
 
 index.get('/', MainController.getIndex);
 
-index.get('/:city', async (req,res) => MainController.getCity(req,res));
+index.get('/:city',MainController.getCity);
 
 
 module.exports = index;
