@@ -7,10 +7,7 @@ const City = sequelize.define("CITY", {
     allowNull: false,
     primaryKey: true,
   },
-  PLAKA: {
-    type: DataTypes.SMALLINT,
-    allowNull: false,
-  },
+  
   SEHIRADI: {
     type: DataTypes.CHAR,
     allowNull: false,

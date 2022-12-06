@@ -1,8 +1,8 @@
 const { Sequelize } = require('sequelize');
 
 
-const sequelize = new Sequelize('havadurumudb', 'postgres', 'admin123', {
-    host: 'havadurumudb.cd6xjyimi7xu.us-east-1.rds.amazonaws.com',
+const sequelize = new Sequelize('WeatherDB', 'postgres', 'admin', {
+    host: 'localhost',
     dialect: 'postgres'
   });
 

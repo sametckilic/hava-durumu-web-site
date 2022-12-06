@@ -12,4 +12,6 @@ index.get('/', MainController.getIndex);
 index.get('/:city',MainController.getCity);
 
 
+
+
 module.exports = index;

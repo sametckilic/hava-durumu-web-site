@@ -3,22 +3,20 @@ const Predicted_Weather = require('../model/Predicted_Weather.js');
 const Weathers = require('../model/Weathers.js');
 const sequelize = require("../config/dbConnect.js");
 const puppeteer = require('puppeteer');
-
+const axios = require('axios');
 
 
 exports.getIndex = (req, res) => {
 
-    res.render('index.ejs', { value: "Bir şehir arayın veya haritadan seçin.", city: "" });
+    res.render("index.ejs",{ value: "Bir şehir arayın veya haritadan seçin.", city: "" });
 };
 
 
 exports.getCity = async (req, res) => {
-    const control = await controlCity(req.params.city)
-    res.render('index.ejs', control);
-
+    const control = await controlCity(req.params.city);
+    res.render('index.ejs',control);
+    
 }
-
-
 
 const controlCity = async (cityStub) => {
     try {
@@ -38,7 +36,7 @@ const controlPredictedWeather = async (city) => {
         if (degree.length === 0) {
             return (getPredictedWeather(city));
         }
-        return { value: degree[0].DEGREE, city: city };
+        return { value: Math.ceil(5/9*(degree[0].DEGREE-32)) + " °C", city: city };
     } catch (err) {
         console.log(err)
     }
@@ -76,18 +74,23 @@ const getPredictedWeather = async city => {
     }
     catch (err) {
         console.log(err);
+        return { value: "", city: {
+            SEHIRTUB: city.SEHIRSTUB,
+            SEHIRADI: "Bu şehirin verilerine ulaşamıyoruz."
+        } };
     }
 }
 
 const insertDataToDB = async (value, city) => {
     try {
-        await value.forEach(async (item) => {
+        for(const item of value) {
             await Weathers.create({
                 CITYID: city.ID,
                 DEGREE: item.value,
                 DATE: item.date,
-            })});
-        return predictWeather(value,city);
+            })}
+
+        return predictWeather(city);
     }
     catch (err) {
         console.log(err);
@@ -95,16 +98,23 @@ const insertDataToDB = async (value, city) => {
 
 }
 
-const predictWeather = async (value, city) => {
+const predictWeather = async (city) => {
 
     try {
         const date = new Date();
         let day = date.getDate();
         let month = date.getMonth() + 1;
         const dayMonth = month + "-" + day;
-        const value = await sequelize.query(`SELECT AVG("DEGREE") FROM "WEATHERS" WHERE "CITYID" = ${city.ID} AND "DATE" LIKE  '%${dayMonth}'`)
-        console.log(value);
-
+        const value = await sequelize.query(`SELECT AVG("DEGREE") FROM "WEATHERS" WHERE "CITYID" = ${city.ID} AND "DATE" LIKE '%${dayMonth}'`)
+        const avg = value[0][0].avg;
+        let year = date.getFullYear()
+        const fullYear = year + "-" + month + "-" + day;
+        await Predicted_Weather.create({
+            CITYID: city.ID,
+            DEGREE: avg,
+            DATE: fullYear,
+        })
+        return controlPredictedWeather(city);
 
     }
     catch (err) {

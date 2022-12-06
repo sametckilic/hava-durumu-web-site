@@ -8,11 +8,18 @@
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/map.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="icon" href="images/icon.ico" type="image/x-icon" />
     <title>Hava Ne Olur?</title>
 </head>
 <input type="hidden" id="cityStub" name="cityStub" value="<%= city.SEHIRSTUB  %>">
+
 <body>
+    <div class="loader-container">
+        <div class="loader"></div>
+    </div>
     <header>
         <div class="container">
             <navbar class="navbar">
@@ -43,7 +50,7 @@
                     <%= city.SEHIRADI %> <span visiblty></span>
                 </div>
                 <div class="city-degree">
-                    <%= value %> <span>°C</span>
+                    <%= value %>
                 </div>
 
             </div>
@@ -397,8 +404,17 @@
             </svg>
         </div>
     </div>
+    <script>
+        $(window).on("load", function() {
+            $(".loader-container").fadeOut(1000);
 
+        });
+    </script>
     <script src="javascripts/script.js"></script>
+    
 </body>
 
 </html>
+
+
+

@@ -1,5 +1,5 @@
 const element = document.querySelector('#svg-turkiye-haritasi');
-        const info = document.querySelector('.il-isimleri');
+const info = document.querySelector('.il-isimleri');
 
         element.addEventListener(
             'mouseover',
@@ -47,4 +47,4 @@ const element = document.querySelector('#svg-turkiye-haritasi');
             city.style.fill = "#153652"
         }
 
-   
+       
