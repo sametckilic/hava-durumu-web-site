@@ -21,7 +21,7 @@ const Predicted_Weather = sequelize.define("PREDICTED_WEATHER", {
     allowNull: true,
   },
   DATE: {
-    type: DataTypes.DATE,
+    type: DataTypes.STRING,
     allowNull: false,
   }
   

@@ -6,17 +6,22 @@ const puppeteer = require('puppeteer');
 const axios = require('axios');
 
 
-exports.getIndex = (req, res) => {
-
-    res.render("index.ejs",{ value: "Bir şehir arayın veya haritadan seçin.", city: "" });
+exports.getIndex = async (req, res) => {
+    const cities = await allCities();
+    res.json(cities);
 };
 
 
 exports.getCity = async (req, res) => {
     const control = await controlCity(req.params.city);
-    res.render('index.ejs',control);
+    res.json(control);
     
 }
+
+const allCities = async ()=>{
+    const cities = await City.findAll();
+    return cities;
+};
 
 const controlCity = async (cityStub) => {
     try {
@@ -36,7 +41,7 @@ const controlPredictedWeather = async (city) => {
         if (degree.length === 0) {
             return (getPredictedWeather(city));
         }
-        return { value: Math.ceil(5/9*(degree[0].DEGREE-32)) + " °C", city: city };
+        return { value: Math.ceil(5/9*(degree[0].DEGREE-32)), city: city };
     } catch (err) {
         console.log(err)
     }
@@ -106,9 +111,10 @@ const predictWeather = async (city) => {
         let month = date.getMonth() + 1;
         const dayMonth = month + "-" + day;
         const value = await sequelize.query(`SELECT AVG("DEGREE") FROM "WEATHERS" WHERE "CITYID" = ${city.ID} AND "DATE" LIKE '%${dayMonth}'`)
-        const avg = value[0][0].avg;
-        let year = date.getFullYear()
+        const avg = Math.round(value[0][0].avg);
+        let year = date.getFullYear();
         const fullYear = year + "-" + month + "-" + day;
+        console.log(fullYear);
         await Predicted_Weather.create({
             CITYID: city.ID,
             DEGREE: avg,

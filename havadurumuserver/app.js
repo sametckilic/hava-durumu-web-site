@@ -1,13 +1,13 @@
 const express = require('express')
 const path = require('path')
+const cors = require('cors')
 const app = express()
-app.listen(3000);
+app.listen(3001);
+
+app.use(cors());
+
 // db connection
 const dbConnect = require('./config/dbConnect');
-
-// view engine configuration
-app.set('view engine','ejs');
-app.set('views','views');
 
 
 // routes
